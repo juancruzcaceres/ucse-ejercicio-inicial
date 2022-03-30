@@ -9,7 +9,7 @@ namespace Logica
     public class Persona
     {
         public string Nombre { get; set; }
-        public int Edad
+        public int? Edad
         {
             get
             {

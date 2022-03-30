@@ -10,14 +10,33 @@ namespace Logica
     {
         //Crear una clase principal para registrar los datos de un partido determinado
         public List<Arbitro> Arbitros { get; set; }
-        public string Ciudad { get; set; }
+        public string Ciudad { get; private set; }
         public DateTime InicioPartido { get; set; }
         public Equipo EquipoLocal { get; set; }
         public Equipo EquipoVisitante { get; set; }
         public List<Gol> Goles { get; set; }
-        public short TiempoDeJuego { get; set; }
-        public List<Cambio> Cambios { get; set; }
-        public List<Tarjeta> Tarjetas { get; set; }
+        public short? TiempoDeJuego { get { 
+                
+                return (new [] { Goles.Max(x => x.MinutoDeJuego), Cambios.Max(x => x.MinutoDeJuego), Tarjetas.Max(x => x.MinutoDeJuego) }.Max());
+                    
+            } }
+        public List<Cambio>? Cambios { get; set; }
+        public List<Tarjeta>? Tarjetas { get; set; }
+
+        ~Partido()
+        {
+            Console.WriteLine("Destruyendo el objeto Partido");
+            Arbitros.Clear();
+            Goles.Clear();
+            Cambios.Clear();
+            Tarjetas.Clear();
+            Console.WriteLine("Terminado");
+        }
+
+        public void GuardarCiudad(string ciudad)
+        {
+            this.Ciudad = ciudad;
+        }
 
         public void AgregarIncidencia(Gol gol)
         {
